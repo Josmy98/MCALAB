@@ -1,0 +1,116 @@
+mysql> use mca
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table employee(empid int(5),ename varchar(20),gender varchar(8),dept varchar(20),education varchar(20),moj varchar (20),salary int(10));
+Query OK, 0 rows affected (0.29 sec)
+
+mysql> insert into employee values(1011,'sanju','male','Engineering','mechanic','january',200000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into employee values(1012,'deepa','female','Engineering','civil','november',250000);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into employee values(1013,'minu','female','medical','doctorial','september',400000);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into employee values(1014,'nithin','male','engineering','doctorial','august',100000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into employee values(1015,'mithun','male','sales','pg','august',100000);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select dept,sum(salary) from employee group by dept;
++-------------+-------------+
+| dept        | sum(salary) |
++-------------+-------------+
+| Engineering |      550000 |
+| medical     |      400000 |
+| sales       |      100000 |
++-------------+-------------+
+3 rows in set (0.11 sec)
+
+mysql> select dept,sum(salary) from employee group by dept having sum(salary)>=200000;
++-------------+-------------+
+| dept        | sum(salary) |
++-------------+-------------+
+| Engineering |      550000 |
+| medical     |      400000 |
++-------------+-------------+
+2 rows in set (0.02 sec)
+
+mysql> select distinct dept from employee;
++-------------+
+| dept        |
++-------------+
+| Engineering |
+| medical     |
+| sales       |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> select count(salary) from employee;
++---------------+
+| count(salary) |
++---------------+
+|             5 |
++---------------+
+1 row in set (0.02 sec)
+
+mysql> select * from employee where dept='engineering' and education='doctorial';
++-------+--------+--------+-------------+-----------+--------+--------+
+| empid | ename  | gender | dept        | education | moj    | salary |
++-------+--------+--------+-------------+-----------+--------+--------+
+|  1014 | nithin | male   | engineering | doctorial | august | 100000 |
++-------+--------+--------+-------------+-----------+--------+--------+
+1 row in set (0.08 sec)
+
+mysql> select * from employee where dept='engineering' or education='doctorial';
++-------+--------+--------+-------------+-----------+-----------+--------+
+| empid | ename  | gender | dept        | education | moj       | salary |
++-------+--------+--------+-------------+-----------+-----------+--------+
+|  1011 | sanju  | male   | Engineering | mechanic  | january   | 200000 |
+|  1012 | deepa  | female | Engineering | civil     | november  | 250000 |
+|  1013 | minu   | female | medical     | doctorial | september | 400000 |
+|  1014 | nithin | male   | engineering | doctorial | august    | 100000 |
++-------+--------+--------+-------------+-----------+-----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select ename as name,education as qualification from employee;
++--------+---------------+
+| name   | qualification |
++--------+---------------+
+| sanju  | mechanic      |
+| deepa  | civil         |
+| minu   | doctorial     |
+| nithin | doctorial     |
+| mithun | pg            |
++--------+---------------+
+5 rows in set (0.00 sec)
+mysql> select * from employee where ename like's%';
++-------+-------+--------+-------------+-----------+---------+--------+
+| empid | ename | gender | dept        | education | moj     | salary |
++-------+-------+--------+-------------+-----------+---------+--------+
+|  1011 | sanju | male   | Engineering | mechanic  | january | 200000 |
++-------+-------+--------+-------------+-----------+---------+--------+
+1 row in set (0.00 sec)
+
+mysql> select dept,sum(salary) from employee where education<>'ug' group by dept having sum(salary)>=200000;
++-------------+-------------+
+| dept        | sum(salary) |
++-------------+-------------+
+| Engineering |      550000 |
+| medical     |      400000 |
++-------------+-------------+
+2 rows in set (0.01 sec)
+
+mysql> select dept,sum(salary) from employee group by dept having sum(salary)>=300000 order by sum(salary) desc;
++-------------+-------------+
+| dept        | sum(salary) |
++-------------+-------------+
+| Engineering |      550000 |
+| medical     |      400000 |
++-------------+-------------+
+2 rows in set (0.02 sec)
+
