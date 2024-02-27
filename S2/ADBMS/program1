@@ -1,0 +1,128 @@
+mysql> create database mca;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> use mca;
+Database changed
+mysql> create table student (rollno int(11),name varchar(20),age int(5),course varchar(20),year varchar(8));
+Query OK, 0 rows affected (0.27 sec)
+
+mysql> desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| rollno | int(11)     | YES  |     | NULL    |       |
+| name   | varchar(20) | YES  |     | NULL    |       |
+| age    | int(5)      | YES  |     | NULL    |       |
+| course | varchar(20) | YES  |     | NULL    |       |
+| year   | varchar(8)  | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> alter table student add mark int(5);
+Query OK, 0 rows affected (0.53 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| rollno | int(11)     | YES  |     | NULL    |       |
+| name   | varchar(20) | YES  |     | NULL    |       |
+| age    | int(5)      | YES  |     | NULL    |       |
+| course | varchar(20) | YES  |     | NULL    |       |
+| year   | varchar(8)  | YES  |     | NULL    |       |
+| mark   | int(5)      | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+6 rows in set (0.03 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into  student values(1,'annmariya',22,'mca',2023,58);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into  student values(2,'anu',21,'mba',2022,60);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> alter table student rename column mark to totalmark;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'column mark to totalmark' at line 1
+
+mysql> desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| rollno | int(11)     | YES  |     | NULL    |       |
+| name   | varchar(20) | YES  |     | NULL    |       |
+| age    | int(5)      | YES  |     | NULL    |       |
+| course | varchar(20) | YES  |     | NULL    |       |
+| year   | varchar(8)  | YES  |     | NULL    |       |
+| mark   | int(5)      | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from student;
++--------+-----------+------+--------+------+------+
+| rollno | name      | age  | course | year | mark |
++--------+-----------+------+--------+------+------+
+|      1 | annmariya |   22 | mca    | 2023 |   58 |
+|      2 | anu       |   21 | mba    | 2022 |   60 |
++--------+-----------+------+--------+------+------+
+2 rows in set (0.00 sec)
+
+mysql> alter table student drop column age;
+Query OK, 0 rows affected (0.60 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| rollno | int(11)     | YES  |     | NULL    |       |
+| name   | varchar(20) | YES  |     | NULL    |       |
+| course | varchar(20) | YES  |     | NULL    |       |
+| year   | varchar(8)  | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+mysql> truncate student;
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> select * from student;
+Empty set (0.00 sec)
+mysql> alter table student change mark totalmark int(5);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| rollno    | int(11)     | YES  |     | NULL    |       |
+| name      | varchar(20) | YES  |     | NULL    |       |
+| age       | int(5)      | YES  |     | NULL    |       |
+| course    | varchar(20) | YES  |     | NULL    |       |
+| year      | varchar(8)  | YES  |     | NULL    |       |
+| totalmark | int(5)      | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+mysql> desc student;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| rollno    | int(11)     | YES  |     | NULL    |       |
+| name      | varchar(20) | YES  |     | NULL    |       |
+| age       | int(5)      | YES  |     | NULL    |       |
+| course    | varchar(20) | YES  |     | NULL    |       |
+| year      | varchar(8)  | YES  |     | NULL    |       |
+| totalmark | int(5)      | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> drop table student;
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> desc student;
+ERROR 1146 (42S02): Table 'mca.student' doesn't exist
+mysql> 
