@@ -1,0 +1,161 @@
+mysql> create table employee(empid int(5),empname varchar(20),dept varchar(20),salary int(10));
+Query OK, 0 rows affected (0.42 sec)
+
+
+mysql> desc employee;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| empid   | int(5)      | YES  |     | NULL    |       |
+| empname | varchar(20) | YES  |     | NULL    |       |
+| dept    | varchar(20) | YES  |     | NULL    |       |
+| salary  | int(10)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table department(deptid int(5),deptname varchar(20),hod varchar(20));
+Query OK, 0 rows affected (0.57 sec)
+
+mysql> desc department;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| deptid   | int(5)      | YES  |     | NULL    |       |
+| deptname | varchar(20) | YES  |     | NULL    |       |
+| hod      | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into  employee values(100,'arya','mca',1000);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into  employee values(101,'siya','bba',1500);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into  employee values(102,'basil','bcom',1200);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into  employee values(103,'nithin','mba',2500);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from employee;
++-------+---------+------+--------+
+| empid | empname | dept | salary |
++-------+---------+------+--------+
+|   100 | arya    | mca  |   1000 |
+|   101 | siya    | bba  |   1500 |
+|   102 | basil   | bcom |   1200 |
+|   103 | nithin  | mba  |   2500 |
++-------+---------+------+--------+
+4 rows in set (0.00 sec)
+
+mysql> insert into  department values(1101,'mba','john');
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into  department values(1102,'mca','martin');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into  department values(1103,'bcom','tintu');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into  department values(1104,'bba','deepthi');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from employee;
++-------+---------+------+--------+
+| empid | empname | dept | salary |
++-------+---------+------+--------+
+|   100 | arya    | mca  |   1000 |
+|   101 | siya    | bba  |   1500 |
+|   102 | basil   | bcom |   1200 |
+|   103 | nithin  | mba  |   2500 |
++-------+---------+------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from department;
++--------+----------+---------+
+| deptid | deptname | hod     |
++--------+----------+---------+
+|   1101 | mba      | john    |
+|   1102 | mca      | martin  |
+|   1103 | bcom     | tintu   |
+|   1104 | bba      | deepthi |
++--------+----------+---------+
+4 rows in set (0.00 sec)
+mysql> alter table employee add primary key (empid);
+Query OK, 0 rows affected (0.92 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+mysql> desc employee;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| empid   | int(5)      | NO   | PRI | NULL    |       |
+| empname | varchar(20) | YES  |     | NULL    |       |
+| dept    | varchar(20) | YES  |     | NULL    |       |
+| salary  | int(10)     | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+4 rows in set (0.03 sec)
+
+mysql> alter table department add foreign key (deptname) references employee(dept);
+Query OK, 4 rows affected (1.31 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+mysql> desc department;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| deptid   | int(5)      | YES  |     | NULL    |       |
+| deptname | varchar(20) | YES  | MUL | NULL    |       |
+| hod      | varchar(20) | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+mysql> select * from employee;
++-------+---------+------+--------+
+| empid | empname | dept | salary |
++-------+---------+------+--------+
+|   101 | siya    | bba  |   1500 |
+|   102 | basil   | bcom |   1200 |
+|   103 | nithin  | mba  |   2500 |
+|   100 | arya    | mca  |   1000 |
++-------+---------+------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from department;
++--------+----------+---------+
+| deptid | deptname | hod     |
++--------+----------+---------+
+|   1101 | mba      | john    |
+|   1102 | mca      | martin  |
+|   1103 | bcom     | tintu   |
+|   1104 | bba      | deepthi |
++--------+----------+---------+
+4 rows in set (0.00 sec)
+mysql> update employee set empname = 'anandhu' where empid=103;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee;
++-------+---------+------+--------+
+| empid | empname | dept | salary |
++-------+---------+------+--------+
+|   101 | siya    | bba  |   1500 |
+|   102 | basil   | bcom |   1200 |
+|   103 | anandhu | mba  |   2500 |
+|   100 | arya    | mca  |   1000 |
++-------+---------+------+--------+
+4 rows in set (0.00 sec)
+mysql> update employee set empname='Aleena' where empid=102;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+mysql>  select * from employee;
++-------+---------+------+--------+
+| empid | empname | dept | salary |
++-------+---------+------+--------+
+|   101 | siya    | bba  |   1500 |
+|   102 | Aleena  | bcom |   1200 |
+|   103 | anandhu | mba  |   2500 |
+|   100 | arya    | mca  |   1000 |
++-------+---------+------+--------+
+4 rows in set (0.00 sec)
+
+
+
