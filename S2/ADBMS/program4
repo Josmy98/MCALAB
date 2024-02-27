@@ -1,0 +1,96 @@
+mysql> use mca;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table students(rollno int,name varchar(20),course varchar(20));
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> insert into students values(1,'ebin','bba');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> savepoint a;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from students;
++--------+------+--------+
+| rollno | name | course |
++--------+------+--------+
+|      1 | ebin | bba    |
++--------+------+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into students values(2,'hima','bba');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into students values(3,'rima','bba');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> savepoint;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> savepoint a;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from students;
++--------+------+--------+
+| rollno | name | course |
++--------+------+--------+
+|      1 | ebin | bba    |
+|      2 | hima | bba    |
+|      3 | rima | bba    |
++--------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> rollback to a;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from students;
++--------+------+--------+
+| rollno | name | course |
++--------+------+--------+
+|      1 | ebin | bba    |
+|      2 | hima | bba    |
+|      3 | rima | bba    |
++--------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> insert into students values(4,'hari','bba');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> rollback to a;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from students;
++--------+------+--------+
+| rollno | name | course |
++--------+------+--------+
+|      1 | ebin | bba    |
+|      2 | hima | bba    |
+|      3 | rima | bba    |
++--------+------+--------+
+3 rows in set (0.00 sec)
+
+mysql> insert into students values(5,'mini','bba');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from students;
++--------+------+--------+
+| rollno | name | course |
++--------+------+--------+
+|      1 | ebin | bba    |
+|      2 | hima | bba    |
+|      3 | rima | bba    |
+|      5 | mini | bba    |
++--------+------+--------+
+4 rows in set (0.00 sec)
+
+
