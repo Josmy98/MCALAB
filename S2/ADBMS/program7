@@ -1,0 +1,65 @@
+mysql> use mca
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> create table employees(emp_id int,emp_name varchar(20),emp_age int,city varchar(20),income int(10));
+Query OK, 0 rows affected (0.53 sec)
+
+mysql> insert into employees values(101,'mathew',29,'california',300000);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into employees values(102,'tinu',31,'newyork',350000);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into employees values(103,'rinu',25,'florida',200000);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into employees values(104,'sanjay',30,'gorgia',400000);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into employees values(105,'abin',26,'arizona',450000);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from employees;
++--------+----------+---------+------------+--------+
+| emp_id | emp_name | emp_age | city       | income |
++--------+----------+---------+------------+--------+
+|    101 | mathew   |      29 | california | 300000 |
+|    102 | tinu     |      31 | newyork    | 350000 |
+|    103 | rinu     |      25 | florida    | 200000 |
+|    104 | sanjay   |      30 | gorgia     | 400000 |
+|    105 | abin     |      26 | arizona    | 450000 |
++--------+----------+---------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select emp_name,city,income from employees where emp_id in(select emp_id from employees);
++----------+------------+--------+
+| emp_name | city       | income |
++----------+------------+--------+
+| mathew   | california | 300000 |
+| tinu     | newyork    | 350000 |
+| rinu     | florida    | 200000 |
+| sanjay   | gorgia     | 400000 |
+| abin     | arizona    | 450000 |
++----------+------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select * from employees where emp_id in(select emp_id from employees where income>350000);
++--------+----------+---------+---------+--------+
+| emp_id | emp_name | emp_age | city    | income |
++--------+----------+---------+---------+--------+
+|    104 | sanjay   |      30 | gorgia  | 400000 |
+|    105 | abin     |      26 | arizona | 450000 |
++--------+----------+---------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select emp_name,city,income from employees where income=(select max(income) from employees);
++----------+---------+--------+
+| emp_name | city    | income |
++----------+---------+--------+
+| abin     | arizona | 450000 |
++----------+---------+--------+
+1 row in set (0.01 sec)
+
+

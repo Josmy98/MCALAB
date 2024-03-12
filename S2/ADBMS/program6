@@ -1,0 +1,280 @@
+mysql> create table salesman(salesman_id int primary key,name varchar(20),city varchar(20),commision float);
+Query OK, 0 rows affected (0.32 sec)
+
+mysql> desc salesman;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| salesman_id | int(11)     | NO   | PRI | NULL    |       |
+| name        | varchar(20) | YES  |     | NULL    |       |
+| city        | varchar(20) | YES  |     | NULL    |       |
+| commision   | float       | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into salesman values(3001,'paul john','newyork','0.15');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into salesman values(3002,'david zen','paris','0.13');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into salesman values(3003,'james hoog','london','0.11');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into salesman values(3004,'mathew paul','paris','0.14');
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into salesman values(3005,'mc lyon','san jose','0.13');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> desc salesman;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| salesman_id | int(11)     | NO   | PRI | NULL    |       |
+| name        | varchar(20) | YES  |     | NULL    |       |
+| city        | varchar(20) | YES  |     | NULL    |       |
+| commision   | float       | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> select * from salesman;
++-------------+-------------+----------+-----------+
+| salesman_id | name        | city     | commision |
++-------------+-------------+----------+-----------+
+|        3001 | paul john   | newyork  |      0.15 |
+|        3002 | david zen   | paris    |      0.13 |
+|        3003 | james hoog  | london   |      0.11 |
+|        3004 | mathew paul | paris    |      0.14 |
+|        3005 | mc lyon     | san jose |      0.13 |
++-------------+-------------+----------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> create table customer(customer_id int,cust_name varchar(20),city varchar(20),grade varchar(10),salesman_id int);
+Query OK, 0 rows affected (0.26 sec)
+
+mysql> desc customer;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customer_id | int(11)     | YES  |     | NULL    |       |
+| cust_name   | varchar(20) | YES  |     | NULL    |       |
+| city        | varchar(20) | YES  |     | NULL    |       |
+| grade       | varchar(10) | YES  |     | NULL    |       |
+| salesman_id | int(11)     | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into customer values(5001,'nick romardo','newyork','100',3001);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer values(5004,'brad davis','newyork','200',3005);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer values(5006,'peter konz','california','200',3003);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> insert into customer values(5008,'helen dizusa','london','300',3001);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into customer values(5005,'thomas paul','berlin','100',3004);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into customer values(5003,'daneil kong','mosco','200',3002);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from customer;
++-------------+--------------+------------+-------+-------------+
+| customer_id | cust_name    | city       | grade | salesman_id |
++-------------+--------------+------------+-------+-------------+
+|        5001 | nick romardo | newyork    | 100   |        3001 |
+|        5004 | brad davis   | newyork    | 200   |        3005 |
+|        5006 | peter konz   | california | 200   |        3003 |
+|        5008 | helen dizusa | london     | 300   |        3001 |
+|        5005 | thomas paul  | berlin     | 100   |        3004 |
+|        5003 | daneil kong  | mosco      | 200   |        3002 |
++-------------+--------------+------------+-------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> create view newyorkstaff as select * from salesman where city="newyork";
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> select * from salesman;
++-------------+-------------+----------+-----------+
+| salesman_id | name        | city     | commision |
++-------------+-------------+----------+-----------+
+|        3001 | paul john   | newyork  |      0.15 |
+|        3002 | david zen   | paris    |      0.13 |
+|        3003 | james hoog  | london   |      0.11 |
+|        3004 | mathew paul | paris    |      0.14 |
+|        3005 | mc lyon     | san jose |      0.13 |
++-------------+-------------+----------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from staff;
+ERROR 1146 (42S02): Table 'mca.staff' doesn't exist
+mysql> select * from newyorkstaff;
++-------------+-----------+---------+-----------+
+| salesman_id | name      | city    | commision |
++-------------+-----------+---------+-----------+
+|        3001 | paul john | newyork |      0.15 |
++-------------+-----------+---------+-----------+
+1 row in set (0.00 sec)
+
+mysql> alter table customer add foreign key(salesman_id) references salesman(salesman_id);
+Query OK, 6 rows affected (0.86 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++-------------+--------------+------------+-------+-------------+
+| customer_id | cust_name    | city       | grade | salesman_id |
++-------------+--------------+------------+-------+-------------+
+|        5001 | nick romardo | newyork    | 100   |        3001 |
+|        5004 | brad davis   | newyork    | 200   |        3005 |
+|        5006 | peter konz   | california | 200   |        3003 |
+|        5008 | helen dizusa | london     | 300   |        3001 |
+|        5005 | thomas paul  | berlin     | 100   |        3004 |
+|        5003 | daneil kong  | mosco      | 200   |        3002 |
++-------------+--------------+------------+-------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> desc customer;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customer_id | int(11)     | YES  |     | NULL    |       |
+| cust_name   | varchar(20) | YES  |     | NULL    |       |
+| city        | varchar(20) | YES  |     | NULL    |       |
+| grade       | varchar(10) | YES  |     | NULL    |       |
+| salesman_id | int(11)     | YES  | MUL | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table customer add primary key(customer_id);
+Query OK, 0 rows affected (0.68 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc customer;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| customer_id | int(11)     | NO   | PRI | NULL    |       |
+| cust_name   | varchar(20) | YES  |     | NULL    |       |
+| city        | varchar(20) | YES  |     | NULL    |       |
+| grade       | varchar(10) | YES  |     | NULL    |       |
+| salesman_id | int(11)     | YES  | MUL | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create view gradecount(grade,number) as select grade,count(*) from customer group by grade;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> select * from gradecount;
++-------+--------+
+| grade | number |
++-------+--------+
+| 100   |      2 |
+| 200   |      3 |
+| 300   |      1 |
++-------+--------+
+3 rows in set (0.00 sec)
+
+mysql> create table order1(order_no int primary key,purch_amt float,order_date DATE,cust_id int,salesman_id int);
+Query OK, 0 rows affected (0.41 sec)
+
+mysql> desc order1;
++-------------+---------+------+-----+---------+-------+
+| Field       | Type    | Null | Key | Default | Extra |
++-------------+---------+------+-----+---------+-------+
+| order_no    | int(11) | NO   | PRI | NULL    |       |
+| purch_amt   | float   | YES  |     | NULL    |       |
+| order_date  | date    | YES  |     | NULL    |       |
+| cust_id     | int(11) | YES  |     | NULL    |       |
+| salesman_id | int(11) | YES  |     | NULL    |       |
++-------------+---------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+mysql> insert into order1 values(7001,150.5,'2012-08-17','5004',3004);
+Query OK, 1 row affected (0.21 sec)
+
+mysql> insert into order1 values(7002,270.65,'2012-10-10','5001',3005);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into order1 values(7003,65.26,'2013-08-10','5008',3001);
+Query OK, 1 row affected (0.07 sec)
+
+mysql> insert into order1 values(7004,110.5,'2012-08-12','5006',3002);
+Query OK, 1 row affected (0.13 sec)
+
+mysql> insert into order1 values(7005,948.5,'2012-01-04','5003',3003);
+Query OK, 1 row affected (0.08 sec)
+
+mysql> insert into order1 values(7006,674.5,'2012-02-06','5005',3004);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into order1 values(7007,78.5,'2012-05-08','5001',3002);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from order1;
++----------+-----------+------------+---------+-------------+
+| order_no | purch_amt | order_date | cust_id | salesman_id |
++----------+-----------+------------+---------+-------------+
+|     7001 |     150.5 | 2012-08-17 |    5004 |        3004 |
+|     7002 |    270.65 | 2012-10-10 |    5001 |        3005 |
+|     7003 |     65.26 | 2013-08-10 |    5008 |        3001 |
+|     7004 |     110.5 | 2012-08-12 |    5006 |        3002 |
+|     7005 |     948.5 | 2012-01-04 |    5003 |        3003 |
+|     7006 |     674.5 | 2012-02-06 |    5005 |        3004 |
+|     7007 |      78.5 | 2012-05-08 |    5001 |        3002 |
++----------+-----------+------------+---------+-------------+
+7 rows in set (0.00 sec)
+
+mysql> create view totalforday as select order_date,count(distinct cust_id),avg(purch_amt),sum(purch_amt) from order1 group by order_date;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> select * from totalforday;
++------------+-------------------------+-------------------+-------------------+
+| order_date | count(distinct cust_id) | avg(purch_amt)    | sum(purch_amt)    |
++------------+-------------------------+-------------------+-------------------+
+| 2012-01-04 |                       1 |             948.5 |             948.5 |
+| 2012-02-06 |                       1 |             674.5 |             674.5 |
+| 2012-05-08 |                       1 |              78.5 |              78.5 |
+| 2012-08-12 |                       1 |             110.5 |             110.5 |
+| 2012-08-17 |                       1 |             150.5 |             150.5 |
+| 2012-10-10 |                       1 | 270.6499938964844 | 270.6499938964844 |
+| 2013-08-10 |                       1 | 65.26000213623047 | 65.26000213623047 |
++------------+-------------------------+-------------------+-------------------+
+7 rows in set (0.02 sec)
+
+mysql> create view sorder as select salesman_id,order_no,cust_id from order1 where order_date in('2012-08-17','2012-10-10');
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> select * from sorder;
++-------------+----------+---------+
+| salesman_id | order_no | cust_id |
++-------------+----------+---------+
+|        3004 |     7001 |    5004 |
+|        3005 |     7002 |    5001 |
++-------------+----------+---------+
+2 rows in set (0.00 sec)
+
+mysql> create view elitsalesman as select b.order_date,a.salesman_id,a.name from salesman a,order1 b where a.salesman_id=b.salesman_id and b.purch_amt=(select max(purch_amt) from order1 c where c.order_date=b.order_date);
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> select * from elitsalesman;
++------------+-------------+-------------+
+| order_date | salesman_id | name        |
++------------+-------------+-------------+
+| 2012-08-17 |        3004 | mathew paul |
+| 2012-10-10 |        3005 | mc lyon     |
+| 2013-08-10 |        3001 | paul john   |
+| 2012-08-12 |        3002 | david zen   |
+| 2012-01-04 |        3003 | james hoog  |
+| 2012-02-06 |        3004 | mathew paul |
+| 2012-05-08 |        3002 | david zen   |
++------------+-------------+-------------+
+7 rows in set (0.06 sec)
+
+
+
+
