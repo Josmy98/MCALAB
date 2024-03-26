@@ -1,0 +1,28 @@
+mysql> use mca
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> delimiter //
+mysql> create procedure displays()
+    -> begin
+    -> select * from employee;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> call displays();
++-------+--------+--------+-------------+-----------+-----------+--------+
+| empid | ename  | gender | dept        | education | moj       | salary |
++-------+--------+--------+-------------+-----------+-----------+--------+
+|  1011 | sanju  | male   | Engineering | mechanic  | january   | 200000 |
+|  1012 | deepa  | female | Engineering | civil     | november  | 250000 |
+|  1013 | minu   | female | medical     | doctorial | september | 400000 |
+|  1014 | nithin | male   | engineering | doctorial | august    | 100000 |
+|  1015 | mithun | male   | sales       | pg        | august    | 100000 |
++-------+--------+--------+-------------+-----------+-----------+--------+
+5 rows in set (0.03 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
