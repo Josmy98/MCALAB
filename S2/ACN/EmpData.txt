@@ -1,0 +1,9 @@
+Employee No : 21
+Employee Name : fitha
+Basic Salary : 50000
+HRA : 9000
+DA : 17500
+PF : 6500
+TA : 5000
+Gross Salary : 88000
+Net Salary : 81500
