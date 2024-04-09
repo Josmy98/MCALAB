@@ -1,0 +1,50 @@
+> use test
+switched to db test
+> db.createCollection("EMP")
+{ "ok" : 1 }
+
+> db.student.insert({rollno:101,name:"Alan",Branch:"MCA"})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({rollno:102,name:"Arun",Branch:"MBA"})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({rollno:103,name:"Ary",Branch:"BCA"})
+WriteResult({ "nInserted" : 1 })
+> db.student.find().pretty()
+{
+	"_id" : ObjectId("6614f9be437377835796b9d3"),
+	"rollno" : 101,
+	"name" : "alan",
+	"branch" : "mca"
+}
+{
+	"_id" : ObjectId("6614f9d0437377835796b9d4"),
+	"rollno" : 102,
+	"name" : "arya",
+	"branch" : "mba"
+}
+{
+	"_id" : ObjectId("6614f9e1437377835796b9d5"),
+	"rollno" : 103,
+	"name" : "swathy",
+	"branch" : "bca"
+}
+{
+	"_id" : ObjectId("6615119ec1833bd673830158"),
+	"rollno" : 101,
+	"name" : "Alan",
+	"Branch" : "MCA"
+}
+{
+	"_id" : ObjectId("661511b1c1833bd673830159"),
+	"rollno" : 102,
+	"name" : "Arun",
+	"Branch" : "MBA"
+}
+{
+	"_id" : ObjectId("661511c4c1833bd67383015a"),
+	"rollno" : 103,
+	"name" : "Ary",
+	"Branch" : "BCA"
+}
+> 
+
