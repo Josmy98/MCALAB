@@ -1,0 +1,144 @@
+> use ProductCatalog
+switched to db ProductCatalog
+> db.createCollection("Product")
+{ "ok" : 1 }
+> db.Products.insertMany([{"ProductId":1,"ProductName":"Laptop","Price":10000,"Quantity":20},{"ProductId":2,"ProductName":"Smartphone","Price":15000,"Quantity":30},{"ProductId":3,"ProductName":"Mouse","Price":100,"Quantity":25},{"ProductId":4,"ProductName":"Keyboard","Price":200,"Quantity":40},{"ProductId":5,"ProductName":"Headset","Price":250,"Quantity":50},{"ProductId":6,"ProductName":"Smartwatch","Price":20000,"Quantity":30}])
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("66150a23c1833bd673830152"),
+		ObjectId("66150a23c1833bd673830153"),
+		ObjectId("66150a23c1833bd673830154"),
+		ObjectId("66150a23c1833bd673830155"),
+		ObjectId("66150a23c1833bd673830156"),
+		ObjectId("66150a23c1833bd673830157")
+	]
+}
+> db.Products.find().pretty()
+{
+	"_id" : ObjectId("66150a23c1833bd673830152"),
+	"ProductId" : 1,
+	"ProductName" : "Laptop",
+	"Price" : 10000,
+	"Quantity" : 20
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830153"),
+	"ProductId" : 2,
+	"ProductName" : "Smartphone",
+	"Price" : 15000,
+	"Quantity" : 30
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830154"),
+	"ProductId" : 3,
+	"ProductName" : "Mouse",
+	"Price" : 100,
+	"Quantity" : 25
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830155"),
+	"ProductId" : 4,
+	"ProductName" : "Keyboard",
+	"Price" : 200,
+	"Quantity" : 40
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830156"),
+	"ProductId" : 5,
+	"ProductName" : "Headset",
+	"Price" : 250,
+	"Quantity" : 50
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830157"),
+	"ProductId" : 6,
+	"ProductName" : "Smartwatch",
+	"Price" : 20000,
+	"Quantity" : 30
+}
+> db.Products.updateOne({"ProductName":"Laptop"},{$inc:{"Quantity":10}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.Products.find().pretty()
+{
+	"_id" : ObjectId("66150a23c1833bd673830152"),
+	"ProductId" : 1,
+	"ProductName" : "Laptop",
+	"Price" : 10000,
+	"Quantity" : 30
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830153"),
+	"ProductId" : 2,
+	"ProductName" : "Smartphone",
+	"Price" : 15000,
+	"Quantity" : 30
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830154"),
+	"ProductId" : 3,
+	"ProductName" : "Mouse",
+	"Price" : 100,
+	"Quantity" : 25
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830155"),
+	"ProductId" : 4,
+	"ProductName" : "Keyboard",
+	"Price" : 200,
+	"Quantity" : 40
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830156"),
+	"ProductId" : 5,
+	"ProductName" : "Headset",
+	"Price" : 250,
+	"Quantity" : 50
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830157"),
+	"ProductId" : 6,
+	"ProductName" : "Smartwatch",
+	"Price" : 20000,
+	"Quantity" : 30
+}
+> db.Products.deleteOne({"ProductName":"Smartphone"})
+{ "acknowledged" : true, "deletedCount" : 1 }
+> db.Products.find().pretty()
+{
+	"_id" : ObjectId("66150a23c1833bd673830152"),
+	"ProductId" : 1,
+	"ProductName" : "Laptop",
+	"Price" : 10000,
+	"Quantity" : 30
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830154"),
+	"ProductId" : 3,
+	"ProductName" : "Mouse",
+	"Price" : 100,
+	"Quantity" : 25
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830155"),
+	"ProductId" : 4,
+	"ProductName" : "Keyboard",
+	"Price" : 200,
+	"Quantity" : 40
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830156"),
+	"ProductId" : 5,
+	"ProductName" : "Headset",
+	"Price" : 250,
+	"Quantity" : 50
+}
+{
+	"_id" : ObjectId("66150a23c1833bd673830157"),
+	"ProductId" : 6,
+	"ProductName" : "Smartwatch",
+	"Price" : 20000,
+	"Quantity" : 30
+}
+> 
+

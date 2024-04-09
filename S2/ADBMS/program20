@@ -1,0 +1,155 @@
+mongo
+MongoDB shell version v3.4.24
+connecting to: mongodb://127.0.0.1:27017
+MongoDB server version: 3.4.24
+Server has startup warnings: 
+2024-04-09T13:45:06.215+0530 I STORAGE  [initandlisten] 
+2024-04-09T13:45:06.215+0530 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+2024-04-09T13:45:06.215+0530 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+2024-04-09T13:45:11.562+0530 I CONTROL  [initandlisten] 
+2024-04-09T13:45:11.562+0530 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2024-04-09T13:45:11.562+0530 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+2024-04-09T13:45:11.562+0530 I CONTROL  [initandlisten] 
+2024-04-09T13:45:11.583+0530 I CONTROL  [initandlisten] 
+2024-04-09T13:45:11.583+0530 I CONTROL  [initandlisten] ** WARNING: /sys/kernel/mm/transparent_hugepage/defrag is 'always'.
+2024-04-09T13:45:11.583+0530 I CONTROL  [initandlisten] **        We suggest setting it to 'never'
+2024-04-09T13:45:11.583+0530 I CONTROL  [initandlisten] 
+> use Employee
+switched to db Employee
+> db.createCollection("EMP")
+{ "ok" : 1 }
+> db.EMPL.insertMany([ {"Empno":1,"Name":"John","Salary":60000,"Role":"Manager"},{"Empno":2,"Name":"Swathy","Salary":50000,"Role":"Developer"},{"Empno":3,"Name":"David","Salary":100000,"Role":"Tester"},{"Empno":4,"Name":"Mariya","Salary":750000,"Role":"Manager"},{"Empno":5,"Name":"Arya","Salary":65000,"Role":"Consultant"},{"Empno":6,"Name":"samuel","Salary":80000,"Role":"Analyst"},{"Empno":7,"Name":"Fitha","Salary":68000,"Role":"Engineer"},{"Empno":8,"Name":"Arun","Salary":550000,"Role":"Manager"},{"Empno":9,"Name":"manu","Salary":970000,"Role":"Designer"},{"Empno":10,"Name":"Geethu","Salary":550000,"Role":"Fullstackdeveloper"}])
+{
+	"acknowledged" : true,
+	"insertedIds" : [
+		ObjectId("6615042d8712a98c0bb8995d"),
+		ObjectId("6615042d8712a98c0bb8995e"),
+		ObjectId("6615042d8712a98c0bb8995f"),
+		ObjectId("6615042d8712a98c0bb89960"),
+		ObjectId("6615042d8712a98c0bb89961"),
+		ObjectId("6615042d8712a98c0bb89962"),
+		ObjectId("6615042d8712a98c0bb89963"),
+		ObjectId("6615042d8712a98c0bb89964"),
+		ObjectId("6615042d8712a98c0bb89965"),
+		ObjectId("6615042d8712a98c0bb89966")
+	]
+}
+> db.EMPL.find().pretty()
+{
+	"_id" : ObjectId("6615042d8712a98c0bb8995d"),
+	"Empno" : 1,
+	"Name" : "John",
+	"Salary" : 60000,
+	"Role" : "Manager"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb8995e"),
+	"Empno" : 2,
+	"Name" : "Swathy",
+	"Salary" : 50000,
+	"Role" : "Developer"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb8995f"),
+	"Empno" : 3,
+	"Name" : "David",
+	"Salary" : 100000,
+	"Role" : "Tester"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb89960"),
+	"Empno" : 4,
+	"Name" : "Mariya",
+	"Salary" : 750000,
+	"Role" : "Manager"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb89961"),
+	"Empno" : 5,
+	"Name" : "Arya",
+	"Salary" : 65000,
+	"Role" : "Consultant"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb89962"),
+	"Empno" : 6,
+	"Name" : "samuel",
+	"Salary" : 80000,
+	"Role" : "Analyst"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb89963"),
+	"Empno" : 7,
+	"Name" : "Fitha",
+	"Salary" : 68000,
+	"Role" : "Engineer"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb89964"),
+	"Empno" : 8,
+	"Name" : "Arun",
+	"Salary" : 550000,
+	"Role" : "Manager"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb89965"),
+	"Empno" : 9,
+	"Name" : "manu",
+	"Salary" : 970000,
+	"Role" : "Designer"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb89966"),
+	"Empno" : 10,
+	"Name" : "Geethu",
+	"Salary" : 550000,
+	"Role" : "Fullstackdeveloper"
+}
+> db.EMPL.find({"Role":"Manager"}).pretty()
+{
+	"_id" : ObjectId("6615042d8712a98c0bb8995d"),
+	"Empno" : 1,
+	"Name" : "John",
+	"Salary" : 60000,
+	"Role" : "Manager"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb89960"),
+	"Empno" : 4,
+	"Name" : "Mariya",
+	"Salary" : 750000,
+	"Role" : "Manager"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb89964"),
+	"Empno" : 8,
+	"Name" : "Arun",
+	"Salary" : 550000,
+	"Role" : "Manager"
+}
+> db.EMPL.updateOne({"Name":"John"},{$set:{"Salary":150000}})
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+> db.EMPL.find({"Role":"Manager"}).pretty()
+{
+	"_id" : ObjectId("6615042d8712a98c0bb8995d"),
+	"Empno" : 1,
+	"Name" : "John",
+	"Salary" : 150000,
+	"Role" : "Manager"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb89960"),
+	"Empno" : 4,
+	"Name" : "Mariya",
+	"Salary" : 750000,
+	"Role" : "Manager"
+}
+{
+	"_id" : ObjectId("6615042d8712a98c0bb89964"),
+	"Empno" : 8,
+	"Name" : "Arun",
+	"Salary" : 550000,
+	"Role" : "Manager"
+}
+> 
+
