@@ -1,0 +1,148 @@
+> use student
+switched to db student
+> db.student.insert({name:"Tony",age:17,id:1,sec:"A",subject:["physics","maths"]})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({name:"Steve",age:37,id:2,sec:"A",subject:["physics","maths"]})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({name:"Natasha",age:17,id:3,sec:"B",subject:["physics","english"]})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({name:"David",age:21,id:4,sec:"B",subject:["physics","maths","biology","chemisrty"]})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({name:"Nick",age:40,id:5,sec:"B",subject:["english"]})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({name:"Tinu",age:25,id:6,sec:"A",subject:["english"]})
+WriteResult({ "nInserted" : 1 })
+> db.student.insert({name:"Manu",age:25,id:7,sec:"A",subject:["maths","physics","chemistry"]})
+WriteResult({ "nInserted" : 1 })
+> db.student.find().pretty()
+{
+	"_id" : ObjectId("6618c7379b31165c073b8e10"),
+	"name" : "Tony",
+	"age" : 17,
+	"id" : 1,
+	"sec" : "A",
+	"subject" : [
+		"physics",
+		"maths"
+	]
+}
+{
+	"_id" : ObjectId("6618c77b9b31165c073b8e11"),
+	"name" : "Steve",
+	"age" : 37,
+	"id" : 2,
+	"sec" : "A",
+	"subject" : [
+		"physics",
+		"maths"
+	]
+}
+{
+	"_id" : ObjectId("6618c7b89b31165c073b8e12"),
+	"name" : "Natasha",
+	"age" : 17,
+	"id" : 3,
+	"sec" : "B",
+	"subject" : [
+		"physics",
+		"english"
+	]
+}
+{
+	"_id" : ObjectId("6618c82c9b31165c073b8e13"),
+	"name" : "David",
+	"age" : 21,
+	"id" : 4,
+	"sec" : "B",
+	"subject" : [
+		"physics",
+		"maths",
+		"biology",
+		"chemisrty"
+	]
+}
+{
+	"_id" : ObjectId("6618c8889b31165c073b8e14"),
+	"name" : "Nick",
+	"age" : 40,
+	"id" : 5,
+	"sec" : "B",
+	"subject" : [
+		"english"
+	]
+}
+{
+	"_id" : ObjectId("6618c9119b31165c073b8e15"),
+	"name" : "Tinu",
+	"age" : 25,
+	"id" : 6,
+	"sec" : "A",
+	"subject" : [
+		"english"
+	]
+}
+{
+	"_id" : ObjectId("6618c95c9b31165c073b8e16"),
+	"name" : "Manu",
+	"age" : 25,
+	"id" : 7,
+	"sec" : "A",
+	"subject" : [
+		"maths",
+		"physics",
+		"chemistry"
+	]
+}
+> db.students.aggregate([{$match:{sec:"B"}},{$count:"Total student in sec:B"}])
+
+{ "Total student in sec:B" : 3 }
+> db.studentss.aggregate([{$group: {_id:"$sec", total_st: {$sum:1},max_age:{$max:"$age"} }}])
+{ "_id" : "B", "total_st" : 3, "max_age" : 40 }
+{ "_id" : "A", "total_st" : 4, "max_age" : 40 }
+> db.studentss.aggregate([{$match:{age:{$gt:30}}}]).pretty()
+{
+	"_id" : ObjectId("6618d036720c1efdf71efb44"),
+	"name" : "Steve",
+	"age" : 37,
+	"id" : 2,
+	"sec" : "A",
+	"subject" : [
+		"physics",
+		"maths"
+	]
+}
+{
+	"_id" : ObjectId("6618d0f9720c1efdf71efb47"),
+	"name" : "Nick",
+	"age" : 40,
+	"id" : 5,
+	"sec" : "B",
+	"subject" : [
+		"english"
+	]
+}
+{
+	"_id" : ObjectId("6618d11d720c1efdf71efb48"),
+	"name" : "Githa",
+	"age" : 40,
+	"id" : 6,
+	"sec" : "A",
+	"subject" : [
+		"english"
+	]
+}
+> db.studentss.aggregate([{'$sort':{'age':1}}])
+{ "_id" : ObjectId("6618d019720c1efdf71efb43"), "name" : "Tony", "age" : 17, "id" : 1, "sec" : "A", "subject" : [ "physics", "maths" ] }
+{ "_id" : ObjectId("6618d06c720c1efdf71efb45"), "name" : "Natasha", "age" : 17, "id" : 3, "sec" : "B", "subject" : [ "physics", "english" ] }
+{ "_id" : ObjectId("6618d0cb720c1efdf71efb46"), "name" : "Binu", "age" : 21, "id" : 4, "sec" : "B", "subject" : [ "physics", "maths", "biology", "chemistry" ] }
+{ "_id" : ObjectId("6618d16b720c1efdf71efb49"), "name" : "Tinu", "age" : 25, "id" : 7, "sec" : "A", "subject" : [ "maths", "physics", "chemistry" ] }
+{ "_id" : ObjectId("6618d036720c1efdf71efb44"), "name" : "Steve", "age" : 37, "id" : 2, "sec" : "A", "subject" : [ "physics", "maths" ] }
+{ "_id" : ObjectId("6618d0f9720c1efdf71efb47"), "name" : "Nick", "age" : 40, "id" : 5, "sec" : "B", "subject" : [ "english" ] }
+{ "_id" : ObjectId("6618d11d720c1efdf71efb48"), "name" : "Githa", "age" : 40, "id" : 6, "sec" : "A", "subject" : [ "english" ] }
+> db.studentss.count()
+7
+> db.studentss.distinct("name")
+[ "Tony", "Steve", "Natasha", "Binu", "Nick", "Githa", "Tinu" ]
+> db.studentss.distinct("age")
+[ 17, 37, 21, 40, 25 ]
+
