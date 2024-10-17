@@ -1,0 +1,241 @@
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/idEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter ID"
+        android:inputType="number"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Name"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <EditText
+        android:id="@+id/ageEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Age"
+        android:inputType="number"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <Button
+        android:id="@+id/insertButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Insert Data" />
+
+    <Button
+        android:id="@+id/displayButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Display Data" />
+
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update Data" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete Data" />
+
+    <TextView
+        android:id="@+id/displayTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:text="Database Output" />
+
+</LinearLayout>
+
+
+
+MainActivity.java
+
+
+package com.example.mysqlite;
+
+import android.annotation.SuppressLint;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    // Database details
+    private static final String DATABASE_NAME = "MyDatabase.db";
+    private static final int DATABASE_VERSION = 1;
+    private static final String TABLE_NAME = "MyTable";
+    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_NAME = "name";
+    private static final String COLUMN_AGE = "age";
+
+    EditText nameEditText, ageEditText, idEditText;
+    Button insertButton, displayButton, updateButton, deleteButton;
+    TextView displayTextView;
+
+    SQLiteDatabase db;
+
+    @SuppressLint("MissingInflatedId")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize views
+        idEditText = findViewById(R.id.idEditText);
+        nameEditText = findViewById(R.id.nameEditText);
+        ageEditText = findViewById(R.id.ageEditText);
+        insertButton = findViewById(R.id.insertButton);
+        displayButton = findViewById(R.id.displayButton);
+        updateButton = findViewById(R.id.updateButton);
+        deleteButton = findViewById(R.id.deleteButton);
+        displayTextView = findViewById(R.id.displayTextView);
+
+        // Create and/or open the database
+        SQLiteOpenHelper dbHelper = new SQLiteOpenHelper(this, DATABASE_NAME, null, DATABASE_VERSION) {
+            @Override
+            public void onCreate(SQLiteDatabase db) {
+                // Create table
+                String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
+                        COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COLUMN_NAME + " TEXT, " +
+                        COLUMN_AGE + " INTEGER)";
+                db.execSQL(CREATE_TABLE);
+            }
+
+            @Override
+            public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+                // Drop older table if exists and recreate
+                db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+                onCreate(db);
+            }
+        };
+
+        db = dbHelper.getWritableDatabase();  // Get writable database
+
+        // Insert data when button is clicked
+        insertButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = nameEditText.getText().toString();
+                int age = Integer.parseInt(ageEditText.getText().toString());
+
+                if (insertData(name, age)) {
+                    Toast.makeText(MainActivity.this, "Data Inserted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Insertion Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Display data when button is clicked
+        displayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayData();
+            }
+        });
+
+        // Update data when button is clicked
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = idEditText.getText().toString();
+                String name = nameEditText.getText().toString();
+                int age = Integer.parseInt(ageEditText.getText().toString());
+
+                if (updateData(id, name, age)) {
+                    Toast.makeText(MainActivity.this, "Data Updated", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Update Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Delete data when button is clicked
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = idEditText.getText().toString();
+
+                if (deleteData(id)) {
+                    Toast.makeText(MainActivity.this, "Data Deleted", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Delete Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    // Method to insert data into the database
+    private boolean insertData(String name, int age) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_NAME, name);
+        contentValues.put(COLUMN_AGE, age);
+        long result = db.insert(TABLE_NAME, null, contentValues);
+        return result != -1;  // Return true if data is inserted successfully
+    }
+
+    // Method to display data from the database
+    private void displayData() {
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+
+        if (cursor.getCount() == 0) {
+            // No data found
+            Toast.makeText(MainActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        StringBuilder result = new StringBuilder();
+        while (cursor.moveToNext()) {
+            result.append("ID: ").append(cursor.getInt(0)).append("\n");
+            result.append("Name: ").append(cursor.getString(1)).append("\n");
+            result.append("Age: ").append(cursor.getInt(2)).append("\n\n");
+        }
+
+        // Display the result in TextView
+        displayTextView.setText(result.toString());
+
+        cursor.close();  // Close cursor after use
+    }
+
+    // Method to update data in the database
+    private boolean updateData(String id, String name, int age) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_NAME, name);
+        contentValues.put(COLUMN_AGE, age);
+        int result = db.update(TABLE_NAME, contentValues, COLUMN_ID + "=?", new String[]{id});
+        return result > 0;  // Return true if update was successful
+    }
+
+    // Method to delete data from the database
+    private boolean deleteData(String id) {
+        int result = db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{id});
+        return result > 0;  // Return true if delete was successful
+    }
+}
